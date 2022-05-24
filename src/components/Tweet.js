@@ -6,6 +6,7 @@ import {
   TiHeartOutline,
   TiHeartFullOutline,
 } from 'react-icons/ti';
+import { handleToggleTweet } from '../actions/tweets';
 
 class Tweet extends Component {
   toParent = (e, id) => {
@@ -14,8 +15,14 @@ class Tweet extends Component {
   };
   handleLike = (e) => {
     e.preventDefault();
-
-    // todo: Handle Like Tweet
+    const { dispatch, tweet, authedUser } = this.props;
+    dispatch(
+      handleToggleTweet({
+        id: tweet.id,
+        authedUser,
+        hasLiked: tweet.hasLiked,
+      })
+    );
   };
   render() {
     const { tweet } = this.props;
@@ -24,16 +31,8 @@ class Tweet extends Component {
       return <p>This Tweet doesn't exist.</p>;
     }
 
-    const {
-      name,
-      avatar,
-      timestamp,
-      text,
-      hasLiked,
-      likes,
-      replies,
-      parent,
-    } = tweet;
+    const { name, avatar, timestamp, text, hasLiked, likes, replies, parent } =
+      tweet;
 
     return (
       <div className='tweet'>
