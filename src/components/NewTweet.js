@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleAddTweet } from '../actions/tweets';
+import { Redirect } from 'react-router-dom';
 
 class NewTweet extends Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '',
+      toHome: false,
     };
   }
   handleText = (e) => {
@@ -22,11 +24,14 @@ class NewTweet extends Component {
     dispatch(handleAddTweet(text, id));
     this.setState(() => ({
       text: '',
+      toHome: id ? false : true,
     }));
   };
   render() {
-    const { text } = this.state;
-    // todo: Redirect to Home if submitted
+    const { text, toHome } = this.state;
+    if (toHome === true) {
+      return <Redirect to='/' />;
+    }
     const textLeft = 250 - text.length;
     return (
       <div>
